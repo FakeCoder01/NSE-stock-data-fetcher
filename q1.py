@@ -91,7 +91,7 @@ if check_and_create_table(cursor):
 
     # insert the “Securities available for Equity segment (.csv)” file which is saved as "data_csv.csv" to the database table `security_db`
     sql = '''COPY security_db (index, SYMBOL,"NAME OF COMPANY", SERIES, "DATE OF LISTING", "PAID UP VALUE", "MARKET LOT", "ISIN NUMBER", "FACE VALUE") \
-    FROM 'C:\\SAARVE\\data_csv.csv' \
+    FROM 'C:\\FULL_PATH\\data_csv.csv' \
     DELIMITER ',' \
     CSV HEADER;'''
     cursor.execute(sql)
@@ -99,7 +99,7 @@ if check_and_create_table(cursor):
 
     # insert the “bhavcopy file (.csv)” file which is saved as "bhav_csv.csv" to the database table `bhavcopy_db`
     sql = '''COPY bhavcopy_db ( SYMBOL, SERIES, OPEN, HIGH, LOW, CLOSE, LAST, PREVCLOSE, TOTTRDQTY, TOTTRDVAL, TIMESTAMP, TOTALTRADES, ISIN) \
-    FROM 'C:\\SAARVE\\bhavcopy.csv' \
+    FROM 'C:\\FULL_PATH\\bhavcopy.csv' \
     DELIMITER ',' \
     CSV HEADER;'''
     cursor.execute(sql)
