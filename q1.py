@@ -45,11 +45,11 @@ now = datetime.datetime.today()
 
 # connects to the database [I'm using PostgreSQL]
 conn = psycopg2.connect(
-    database="postgres",
-    user='postgres', 
-    password='root',
-    host='127.0.0.1', port='5432'
-)
+        database="postgres",
+        user='postgres', 
+        password='root',
+        host='127.0.0.1', port='5432'
+    )
 
 
 
