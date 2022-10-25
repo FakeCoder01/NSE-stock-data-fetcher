@@ -107,7 +107,7 @@ if check_and_create_table(cursor):
     os.remove('bhavcopy.csv') # delete the "bhavcopy_db.csv" file
 
     # query to database for the top 25 gainers using the formula
-    sql = '''select bhavcopy_db.SYMBOL, bhavcopy_db.SERIES, ( bhavcopy_db.CLOSE- bhavcopy_db.OPEN ) / bhavcopy_db.OPEN as "gain" from bhavcopy_db ORDER BY gain DESC LIMIT 25;'''
+    sql = '''select bhavcopy_db.SYMBOL, bhavcopy_db.SERIES, ( bhavcopy_db.CLOSE - bhavcopy_db.OPEN ) / bhavcopy_db.OPEN as "gain" from bhavcopy_db ORDER BY gain DESC LIMIT 25;'''
     cursor.execute(sql)
     top_gainers = cursor.fetchall()
 
