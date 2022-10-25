@@ -112,7 +112,7 @@ if check_and_create_table(cursor):
 
     # loop and print the result
     for row in top_gainers:
-        print(f"Symbol : {row[0]}/t Series : {row[1]}/t Gain : {row[2]}")
+        print(f"Symbol : {row[0]}\t Series : {row[1]}\t Gain : {row[2]}")
 
     conn.commit()
     conn.close()
