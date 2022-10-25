@@ -45,12 +45,11 @@ now = datetime.datetime.today()
 
 # connects to the database [I'm using PostgreSQL]
 conn = psycopg2.connect(
-        database="postgres",
-        user='postgres', 
-        password='root',
-        host='127.0.0.1', 
-        port='5432'
-      )
+    database="postgres",
+	user='postgres', 
+    password='root',
+	host='127.0.0.1', port='5432'
+)
 
 
 
@@ -91,29 +90,31 @@ if check_and_create_table(cursor):
 
 
     # insert the “Securities available for Equity segment (.csv)” file which is saved as "data_csv.csv" to the database table `security_db`
-    sql = '''COPY security_db (index, SYMBOL,"NAME OF COMPANY", SERIES, "DATE OF LISTING", "PAID UP VALUE", "MARKET LOT", "ISIN NUMBER", "FACE VALUE") \
-    FROM 'C:\\FULL_PATH\\data_csv.csv' \
+    sql = '''DELETE FROM security_db; COPY security_db (index, SYMBOL,"NAME OF COMPANY", SERIES, "DATE OF LISTING", "PAID UP VALUE", "MARKET LOT", "ISIN NUMBER", "FACE VALUE") \
+    FROM 'data_csv.csv' \
     DELIMITER ',' \
     CSV HEADER;'''
     cursor.execute(sql)
     os.remove('data_csv.csv') # delete the "data_csv.csv" file
 
     # insert the “bhavcopy file (.csv)” file which is saved as "bhav_csv.csv" to the database table `bhavcopy_db`
-    sql = '''COPY bhavcopy_db ( SYMBOL, SERIES, OPEN, HIGH, LOW, CLOSE, LAST, PREVCLOSE, TOTTRDQTY, TOTTRDVAL, TIMESTAMP, TOTALTRADES, ISIN) \
-    FROM 'C:\\FULL_PATH\\bhavcopy.csv' \
+    sql = '''DELETE FROM bhavcopy_db; COPY bhavcopy_db ( SYMBOL, SERIES, OPEN, HIGH, LOW, CLOSE, LAST, PREVCLOSE, TOTTRDQTY, TOTTRDVAL, TIMESTAMP, TOTALTRADES, ISIN) \
+    FROM 'bhavcopy.csv' \
     DELIMITER ',' \
     CSV HEADER;'''
     cursor.execute(sql)
     os.remove('bhavcopy.csv') # delete the "bhavcopy_db.csv" file
 
     # query to database for the top 25 gainers using the formula
-    sql = '''select bhavcopy_db.SYMBOL, bhavcopy_db.SERIES, ( bhavcopy_db.CLOSE - bhavcopy_db.OPEN ) / bhavcopy_db.OPEN as "gain" from bhavcopy_db ORDER BY gain DESC LIMIT 25;'''
+    sql = '''select bhavcopy_db.SYMBOL, bhavcopy_db.SERIES, ( bhavcopy_db.CLOSE- bhavcopy_db.OPEN ) / bhavcopy_db.OPEN as "gain" from bhavcopy_db ORDER BY gain DESC LIMIT 25;'''
     cursor.execute(sql)
     top_gainers = cursor.fetchall()
 
     # loop and print the result
+    print("Symbol\t\t\tSeries\t\t\tGain")
+    print("-------------------------------------------------------------------\n")
     for row in top_gainers:
-        print(f"Symbol : {row[0]}\t Series : {row[1]}\t Gain : {row[2]}")
+        print(f"{row[0]}\t\t{row[1]}\t\t{row[2]}")
 
     conn.commit()
     conn.close()
